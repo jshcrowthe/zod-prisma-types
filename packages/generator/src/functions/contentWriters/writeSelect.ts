@@ -19,8 +19,7 @@ export const writeSelect = (
 
   writer
     .blankLine()
-    .write(`export const ${model.name}SelectSchema: `)
-    .write(`z.ZodType<Prisma.${model.name}Select> = `)
+    .write(`export const ${model.name}SelectSchema = `)
     .write(`z.object(`)
     .inlineBlock(() => {
       model.fields.forEach((field) => {
@@ -67,7 +66,7 @@ export const writeSelect = (
       });
     });
 
-  writer.write(`).strict()`);
+  writer.write(`).strict() satisfies z.ZodType<Prisma.${model.name}Select>;`);
 
   if (useMultipleFiles && !getSingleFileContent) {
     writer.blankLine().writeLine(`export default ${model.name}SelectSchema;`);

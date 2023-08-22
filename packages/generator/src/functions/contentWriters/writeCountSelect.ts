@@ -22,8 +22,7 @@ export const writeCountSelect = (
 
   writer
     .blankLine()
-    .write(`export const ${model.name}CountOutputTypeSelectSchema: `)
-    .write(`z.ZodType<Prisma.${model.name}CountOutputTypeSelect> = `)
+    .write(`export const ${model.name}CountOutputTypeSelectSchema = `)
     .write(`z.object(`)
     .inlineBlock(() => {
       model.fields.forEach((field) => {
@@ -32,7 +31,8 @@ export const writeCountSelect = (
         }
       });
     })
-    .write(`).strict();`);
+    .write(`).strict() satisfies `)
+    .write(`z.ZodType<Prisma.${model.name}CountOutputTypeSelect>`);
 
   if (useMultipleFiles && !getSingleFileContent) {
     writer

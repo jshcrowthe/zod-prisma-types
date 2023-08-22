@@ -15,7 +15,7 @@ export const writeDecimalJsLike = ({
   writer
     .blankLine()
     .writeLine(
-      `export const DecimalJSLikeSchema: z.ZodType<Prisma.DecimalJsLike> = z.object({ d: z.array(z.number()), e: z.number(), s: z.number(), toFixed: z.function().args().returns(z.string()), });`,
+      `export const DecimalJSLikeSchema = z.object({ d: z.array(z.number()), e: z.number(), s: z.number(), toFixed: z.function().args().returns(z.string()), }) satisfies z.ZodType<Prisma.DecimalJsLike>;`,
     );
 
   if (useMultipleFiles && !getSingleFileContent) {

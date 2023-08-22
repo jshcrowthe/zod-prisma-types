@@ -201,7 +201,7 @@ export const writeInputObjectType = (
     )
     .conditionalWrite(
       writeExtendedWhereUniqueInput,
-      `).strict() satisfies ${type});`,
+      `).strict()) satisfies ${type};`,
     );
 
   if (useMultipleFiles && !getSingleFileContent) {

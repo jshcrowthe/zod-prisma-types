@@ -19,8 +19,8 @@ export const writeInclude = (
 
   writer
     .blankLine()
-    .write(`export const ${model.name}IncludeSchema: `)
-    .write(`z.ZodType<Prisma.${model.name}Include> = `)
+    .write(`export const ${model.name}IncludeSchema `)
+    .write(` = `)
     .write(`z.object(`)
     .inlineBlock(() => {
       model.fields.forEach((field) => {
@@ -45,7 +45,7 @@ export const writeInclude = (
         }
       });
     })
-    .write(`).strict()`);
+    .write(`).strict() satisfies z.ZodType<Prisma.${model.name}Include>`);
 
   if (useMultipleFiles && !getSingleFileContent) {
     writer.blankLine().writeLine(`export default ${model.name}IncludeSchema;`);

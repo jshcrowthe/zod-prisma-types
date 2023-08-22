@@ -14,9 +14,7 @@ export const writeJsonValue = ({
 
   writer
     .blankLine()
-    .writeLine(
-      `export const JsonValue: z.ZodType<Prisma.JsonValue> = z.union([`,
-    )
+    .writeLine(`export const JsonValue = z.union([`)
     .withIndentationLevel(1, () => {
       writer
         .writeLine(`z.string(),`)
@@ -25,7 +23,7 @@ export const writeJsonValue = ({
         .writeLine(`z.lazy(() => z.array(JsonValue)),`)
         .writeLine(`z.lazy(() => z.record(JsonValue)),`);
     })
-    .writeLine(`]);`)
+    .writeLine(`]) satisfies z.ZodType<Prisma.JsonValue>;`)
     .blankLine()
     .writeLine(`export type JsonValueType = z.infer<typeof JsonValue>;`);
 

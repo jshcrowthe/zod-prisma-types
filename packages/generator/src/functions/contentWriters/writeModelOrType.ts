@@ -383,14 +383,16 @@ export const writeModelOrType = (
     writer
       .blankLine()
       .write(
-        `export const ${model.name}PartialWithRelationsSchema: z.ZodType<${model.name}PartialWithRelations> = ${model.name}PartialSchema.merge(z.object(`,
+        `export const ${model.name}PartialWithRelationsSchema = ${model.name}PartialSchema.merge(z.object(`,
       )
       .inlineBlock(() => {
         model.relationFields.forEach((field) => {
           writeRelation({ writer, field, isPartial: true });
         });
       })
-      .write(`)).partial()`);
+      .write(
+        `)).partial() satisfies z.ZodType<${model.name}PartialWithRelations>`,
+      );
 
     // WRITE OPTIONAL DEFAULTS PARTIAL RELATION VALUE TYPES
     // -------------------------------------------
@@ -463,7 +465,7 @@ export const writeModelOrType = (
       writer
         .blankLine()
         .write(
-          `export const ${model.name}WithPartialRelationsSchema: z.ZodType<${model.name}WithPartialRelations> = ${model.name}Schema.merge(z.object(`,
+          `export const ${model.name}WithPartialRelationsSchema = ${model.name}Schema.merge(z.object(`,
         )
         .inlineBlock(() => {
           model.relationFields.forEach((field) => {
@@ -475,7 +477,9 @@ export const writeModelOrType = (
             });
           });
         })
-        .write(`).partial())`);
+        .write(
+          `).partial()) satisfies z.ZodType<${model.name}WithPartialRelations>`,
+        );
     }
   }
 
