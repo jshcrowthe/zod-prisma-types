@@ -56,8 +56,7 @@ export const writeOutputObjectType = (
 
   writer
     .blankLine()
-    .write(`export const ${field.argName}Schema: `)
-    .write(field.customArgType)
+    .write(`export const ${field.argName}Schema`)
     .write(` = `)
     .write(`z.object(`)
     .inlineBlock(() => {
@@ -127,7 +126,7 @@ export const writeOutputObjectType = (
         writer.newLine();
       });
     })
-    .write(`).strict()`);
+    .write(`).strict() satisfies ${field.customArgType}`);
 
   if (useMultipleFiles && !getSingleFileContent) {
     writer.blankLine().writeLine(`export default ${field.argName}Schema;`);

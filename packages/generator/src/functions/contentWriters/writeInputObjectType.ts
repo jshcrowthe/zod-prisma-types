@@ -128,7 +128,7 @@ export const writeInputObjectType = (
       }, ${inputType.getOmitFieldsUnion()}>>`
     : `z.ZodType<Prisma.${inputType.name}>`;
 
-  writer.blankLine().write(`export const ${inputType.name}Schema: ${type} = `);
+  writer.blankLine().write(`export const ${inputType.name}Schema = `);
 
   const { extendedWhereUniqueFields } = inputType;
 
@@ -195,8 +195,14 @@ export const writeInputObjectType = (
         });
       });
     })
-    .conditionalWrite(!writeExtendedWhereUniqueInput, `).strict();`)
-    .conditionalWrite(writeExtendedWhereUniqueInput, `).strict());`);
+    .conditionalWrite(
+      !writeExtendedWhereUniqueInput,
+      `).strict() satisfies ${type};`,
+    )
+    .conditionalWrite(
+      writeExtendedWhereUniqueInput,
+      `).strict() satisfies ${type});`,
+    );
 
   if (useMultipleFiles && !getSingleFileContent) {
     writer.blankLine().writeLine(`export default ${inputType.name}Schema;`);
